@@ -1,0 +1,29 @@
+#These are the commands used in the StackExchange link to get the 200,000 posts
+SELECT top 1*
+FROM posts
+ORDER BY posts.ViewCount DESC;
+
+SELECT top 50000*
+FROM posts
+WHERE posts.ViewCount < 10040000
+ORDER BY posts.ViewCount DESC;
+
+SELECT top 50000*
+FROM posts
+WHERE posts.ViewCount < 127402
+ORDER BY posts.ViewCount DESC;
+
+SELECT top 50000*
+FROM posts
+WHERE posts.ViewCount < 74675
+ORDER BY posts.ViewCount DESC;
+
+SELECT top 50000*
+FROM posts
+WHERE posts.ViewCount < 53286
+ORDER BY posts.ViewCount DESC;
+
+SELECT * FROM posts WHERE posts.ViewCount=10040000
+SELECT * FROM posts WHERE posts.ViewCount=127402
+SELECT * FROM posts WHERE posts.ViewCount=74675
+SELECT * FROM posts WHERE posts.ViewCount=53286
