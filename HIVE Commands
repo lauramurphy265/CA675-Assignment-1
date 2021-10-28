@@ -1,0 +1,104 @@
+# Set region and zone on Cloud Shell
+$ export REGION=us-central1
+$ export ZONE=us-central1-a
+$ gcloud config set compute/zone ${ZONE}
+
+
+# To copy data 
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00000 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00001 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00002 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00003 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00004 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00005 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00006 .
+$ gsutil cp gs://assignment1-330220-warehouse/part-m-00007 .
+
+
+# Run hive query to create an external table for the first set of data
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00000 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00001 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00002 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00003 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00004 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00005 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00006 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster --region ${REGION} --execute 
+"CREATE EXTERNAL TABLE queries00007 (Id DOUBLE, Score DOUBLE, ViewCount DOUBLE, Body STRING, Title STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION 'gs://assignment1-330220-warehouse/';"
+
+# Checking that the data imported correctly
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00000
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00001
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00002
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00003
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00004
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00005
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00006
+LIMIT 10;"
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "SELECT *                                                     
+FROM queries00007
+LIMIT 10;"
+
+# For Task 2.2.1:
+
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "
+SELECT *
+FROM queries01 SORT BY score DESC
+LIMIT 10;"
+
+# For Task 2.2.2:
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "
+SELECT id, sum(score) AS total_score
+FROM queries01
+GROUP BY id
+SORT BY total_score DESC
+LIMIT 10;"
+
+#For Task 2.2.3:
+$ gcloud dataproc jobs submit hive --cluster hive-cluster  --region ${REGION}  --execute "
+SELECT count(id) FROM queries01
+WHERE body like '%Hadoop%' 
+OR body like'%hadoop%'
+OR title like '%Hadoop%' 
+OR title like'%hadoop%';
+
+
+
+
+
